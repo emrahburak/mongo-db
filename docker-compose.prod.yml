@@ -4,6 +4,9 @@ networks:
   aprilrain_db_network:
     driver: bridge
 
+volumes:
+  aprilrain_mongodb_data:  # Docker volume tanımı
+
   # ============================
   # Database (mongodb)
   # ============================
