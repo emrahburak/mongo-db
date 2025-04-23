@@ -18,10 +18,15 @@ mongodb:
     - aprilrain_mongodb_data:/data/db
     - /home/helis/Documents/app_data/helis_mongo_data:/data/db
     - /home/helis/Documents/app_data/aprilrain_dump:/tmp/dump
-  environment:
-    MONGO_INITDB_ROOT_USERNAME: root
-    MONGO_INITDB_ROOT_PASSWORD: hocusfocus
+    env_file:
+      - ~/Documents/app_environment/mongo.env
   networks:
     - aprilrain_queue_network
     - aprilrain_db_network
+  healthcheck:
+    test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    interval: 2m
+    timeout: 10s
+    retries: 3
+
  
