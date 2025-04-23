@@ -1,0 +1,27 @@
+networks:
+  aprilrain_queue_network:
+    driver: bridge
+  aprilrain_db_network:
+    driver: bridge
+
+  # ============================
+  # Database (mongodb)
+  # ============================
+mongodb:
+  image: mongo
+  container_name: mongodb
+  hostname: mongodb
+  restart: always
+  #ports:
+  #  - "27017:27017"
+  volumes:
+    - aprilrain_mongodb_data:/data/db
+    - /home/helis/Documents/app_data/helis_mongo_data:/data/db
+    - /home/helis/Documents/app_data/aprilrain_dump:/tmp/dump
+  environment:
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: hocusfocus
+  networks:
+    - aprilrain_queue_network
+    - aprilrain_db_network
+ 
