@@ -26,7 +26,7 @@ services:
       - aprilrain_queue_network
       - aprilrain_db_network
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 1m
       timeout: 10s
       retries: 5
