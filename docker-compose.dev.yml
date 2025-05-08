@@ -17,9 +17,8 @@ services:
     volumes:
       - aprilrain_mongodb_data:/data/db
       - ~/Belgeler/mongodb_data:/tmp/dump
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: hocusfocus
+    env_file:
+      - ~/Belgeler/app_environment/mongo.env
     networks:
       - aprilrain_queue_network
       - aprilrain_db_network 
@@ -29,27 +28,6 @@ services:
       timeout: 10s
       retries: 3
 
-
-  # ============================
-  # Web Server  (flask)
-  # ============================
-  mongo-api:
-    build:
-      context: ./mongo_api  # Build context'i mongo_api klasörü olarak ayarla
-    container_name: mongo-api
-    hostname: mongo-api
-    restart: always
-    expose:
-     - "5000"
-    environment:
-      MONGO_URI: "mongodb://root:hocusfocus@mongodb:27017/"
-      API_KEY: hocusfocus
-    volumes:
-      - ./mongo_api:/app  # Flask uygulamasının dosyalarını container'a bağla
-    networks:
-      - aprilrain_db_network 
-    depends_on:
-      - mongodb
   # ============================
   # Mongo-Express 
   # ============================
@@ -60,11 +38,8 @@ services:
     restart: always
     ports:
       - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: hocusfocus  # MongoDB şifresiyle eşleşmeli
-      ME_CONFIG_MONGODB_URL: mongodb://root:hocusfocus@mongodb:27017/  # "mongo" yerine "mongodb"
-      ME_CONFIG_BASICAUTH: false
+    env_file:
+      - ~/Belgeler/app_environment/mongo.env
     networks:
       - aprilrain_db_network 
     depends_on:

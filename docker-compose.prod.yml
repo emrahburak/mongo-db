@@ -31,25 +31,3 @@ services:
       timeout: 10s
       retries: 5
       start_period: 10s
-
-  # ============================
-  # Web Server  (flask)
-  # ============================
-  mongo-api:
-    build:
-      context: ./mongo_api  # Build context'i mongo_api klasörü olarak ayarla
-    container_name: mongo-api
-    hostname: mongo-api
-    restart: always
-    ports:
-      - "5002:5000"  # Dışarıda 5001, içeride 5000
-    environment:
-      MONGO_URI: "mongodb://root:hocusfocus@mongodb:27017/"
-      API_KEY: hocusfocus
-    volumes:
-      - ./mongo_api:/app  # Flask uygulamasının dosyalarını container'a bağla
-    networks:
-      - aprilrain_db_network 
-    depends_on:
-      - mongodb
- 
